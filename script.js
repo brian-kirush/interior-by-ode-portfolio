@@ -7,10 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Disable scroll while preloader is active
         document.body.style.overflow = 'hidden';
 
+        // Temporary: Hide preloader immediately for testing
         setTimeout(() => {
             preloader.classList.add('hide');
             document.body.style.overflow = 'auto';
-        }, 1800); // 1.8 seconds
+        }, 500); // Reduced to 0.5 seconds
     } else {
         // Keep preloader hidden initially for navigation loading effects
         preloader.style.display = 'none';
