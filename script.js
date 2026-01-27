@@ -2,20 +2,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     const preloader = document.getElementById('preloader');
 
-    // Only show preloader on homepage
-    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
-        // Disable scroll while preloader is active
-        document.body.style.overflow = 'hidden';
-
-        // Temporary: Hide preloader immediately for testing
+    // Failsafe: Ensure preloader is hidden after 3 seconds in case of logic errors
+    if (preloader) {
         setTimeout(() => {
+            if (!preloader.classList.contains('hide')) {
+                preloader.classList.add('hide');
+                document.body.style.overflow = 'auto';
+            }
+        }, 3000);
+    }
+
+    // Only show preloader on homepage
+    if (preloader) {
+        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
+            // Disable scroll while preloader is active
+            document.body.style.overflow = 'hidden';
+    
+            // Temporary: Hide preloader immediately for testing
+            setTimeout(() => {
+                preloader.classList.add('hide');
+                document.body.style.overflow = 'auto';
+            }, 500); // Reduced to 0.5 seconds
+        } else {
+            // Keep preloader hidden initially for navigation loading effects
+            preloader.style.display = 'none';
             preloader.classList.add('hide');
-            document.body.style.overflow = 'auto';
-        }, 500); // Reduced to 0.5 seconds
-    } else {
-        // Keep preloader hidden initially for navigation loading effects
-        preloader.style.display = 'none';
-        preloader.classList.add('hide');
+        }
     }
 
     // Mobile menu toggle
@@ -24,15 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (mobileToggle && navbarMenu) {
         mobileToggle.addEventListener('click', () => {
-            navbarMenu.classList.toggle('active');
-            mobileToggle.innerHTML = navbarMenu.classList.contains('active')
-                ? '<i class="fas fa-times"></i>'
-                : '<i class="fas fa-bars"></i>';
-        });
-
-        // Also add touchstart for better mobile support
-        mobileToggle.addEventListener('touchstart', (e) => {
-            e.preventDefault();
             navbarMenu.classList.toggle('active');
             mobileToggle.innerHTML = navbarMenu.classList.contains('active')
                 ? '<i class="fas fa-times"></i>'
@@ -67,11 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollTop = scrollTop;
 
         // Add shadow when scrolled
-        if (scrollTop > 50) {
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
-        }
+        navbar.classList.toggle('scrolled', scrollTop > 50);
     });
 
     // Portfolio filtering
@@ -113,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle consultation form submission
-    const bookingForm = document.querySelector('.booking-form');
+    const bookingForm = document.querySelector('.booking-form, .consultation-form');
     if (bookingForm) {
         bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -185,35 +184,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     gallerySlideshows.forEach((slideshow, index) => {
         const slides = slideshow.querySelectorAll('.gallery-slide');
+        const intervalTime = 3000 + (index * 500); // Stagger the timing: 3s, 3.5s, 4s, etc.
         let currentSlide = 0;
+        let intervalId = null;
 
-        // Set different intervals for each slideshow to create a staggered effect
-        const interval = setInterval(() => {
-            // Remove active class from current slide
+        const nextSlide = () => {
             slides[currentSlide].classList.remove('active');
-
-            // Move to next slide
             currentSlide = (currentSlide + 1) % slides.length;
-
-            // Add active class to new slide
             slides[currentSlide].classList.add('active');
-        }, 3000 + (index * 500)); // Stagger the timing: 3s, 3.5s, 4s, etc.
+        };
+
+        const startSlideshow = () => {
+            // Clear any existing interval before starting a new one to prevent duplicates
+            clearInterval(intervalId);
+            intervalId = setInterval(nextSlide, intervalTime);
+        };
 
         // Pause on hover
         slideshow.addEventListener('mouseenter', () => {
-            clearInterval(interval);
+            clearInterval(intervalId);
         });
 
         // Resume on mouse leave
         slideshow.addEventListener('mouseleave', () => {
-            setTimeout(() => {
-                const newInterval = setInterval(() => {
-                    slides[currentSlide].classList.remove('active');
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    slides[currentSlide].classList.add('active');
-                }, 3000 + (index * 500));
-            }, 1000);
+            // Resume after a short delay for a smoother user experience
+            setTimeout(startSlideshow, 1000);
         });
+
+        startSlideshow(); // Start the slideshow initially
     });
 
     // Add active class to current page in navbar
