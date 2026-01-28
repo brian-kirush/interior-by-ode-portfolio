@@ -565,6 +565,7 @@ body > section:first-of-type:not(.hero) {
     width: 100%;
     height: 400px;
     object-fit: cover;
+    object-position: top; /* Aligns the top of the image, making faces more likely to be visible */
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     animation: gentleFloat 8s ease-in-out infinite;
