@@ -194,13 +194,25 @@ body > section:first-of-type:not(.hero) {
 }
 
 @keyframes logoDrop {
-    0% { transform: translateY(-100px); opacity: 0; }
+    0% { transform: translateY(-150px); opacity: 0; }
+    60% { transform: translateY(10px); opacity: 1; }
+    85% { transform: translateY(-5px); }
     100% { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@keyframes gentleFloat {
+    0% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: translateY(-15px) scale(1.03);
+        box-shadow: 0 25px 40px rgba(0, 0, 0, 0.15);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
 }
 
 /* Navbar */
@@ -491,7 +503,7 @@ body > section:first-of-type:not(.hero) {
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: 80px;
     align-items: center;
 }
 
@@ -547,7 +559,7 @@ body > section:first-of-type:not(.hero) {
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    animation: spin 15s linear infinite;
+    animation: gentleFloat 8s ease-in-out infinite;
 }
 
 /* Services Preview */
