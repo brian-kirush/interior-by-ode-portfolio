@@ -341,6 +341,13 @@ body > section:first-of-type:not(.hero) {
     transition: all 0.3s ease;
     margin-left: 30px;
     box-shadow: 0 4px 15px rgba(138, 154, 91, 0.3);
+    animation: ctaPulse 3s infinite ease-in-out;
+}
+
+@keyframes ctaPulse {
+    0% { box-shadow: 0 4px 15px rgba(138, 154, 91, 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(138, 154, 91, 0.5), 0 0 0 4px rgba(138, 154, 91, 0.1); }
+    100% { box-shadow: 0 4px 15px rgba(138, 154, 91, 0.3); }
 }
 
 .navbar-cta:hover {
@@ -1275,7 +1282,7 @@ footer {
 .social-icons a:hover,
 .social-links a:hover,
 .social-links-large a:hover {
-    background-color: var(--sage-green);
+    background-color: var(--purple);
     transform: scale(1.08);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
