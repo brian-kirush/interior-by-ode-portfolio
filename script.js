@@ -123,23 +123,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 const filterValue = button.getAttribute('data-filter');
 
                 portfolioItems.forEach(item => {
-                    const shouldBeVisible = filterValue === 'all' || item.getAttribute('data-category') === filterValue;
-                    const isVisible = item.style.display !== 'none';
+                    const category = item.getAttribute('data-category');
+                    const shouldBeVisible = filterValue === 'all' || category === filterValue;
 
-                    if (shouldBeVisible && !isVisible) {
+                    if (shouldBeVisible) {
                         item.style.display = 'block';
-                        // Add fade-in animation
-                        item.style.opacity = '0';
-                        item.style.transform = 'scale(0.8)';
                         setTimeout(() => {
                             item.style.opacity = '1';
                             item.style.transform = 'scale(1)';
-                        }, 10);
-                    } else if (!shouldBeVisible && isVisible) {
+                        }, 50);
+                    } else {
                         item.style.opacity = '0';
                         item.style.transform = 'scale(0.8)';
                         setTimeout(() => {
-                            item.style.display = 'none';
+                            if (item.style.opacity === '0') {
+                                item.style.display = 'none';
+                            }
                         }, 400);
                     }
                 });
@@ -205,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show loading effect
                 const preloader = document.getElementById('preloader');
                 if (preloader) {
-                    preloader.style.display = 'flex';
                     preloader.classList.remove('hide');
                     document.body.style.overflow = 'hidden';
 
@@ -220,13 +218,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         setTimeout(() => {
                             preloader.classList.add('hide');
                             document.body.style.overflow = 'auto';
-                            setTimeout(() => {
-                                preloader.style.display = 'none';
-                            }, 600);
                         }, 800);
                     }, 300);
                 } else {
-                    // Fallback if preloader doesn't exist
                     window.scrollTo({
                         top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
@@ -262,6 +256,108 @@ document.addEventListener('DOMContentLoaded', function() {
         backToTopButton.addEventListener('click', (e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // Testimonial Slider
+    const testimonialSlider = document.querySelector('.testimonial-slider');
+    if (testimonialSlider) {
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const prevBtn = document.querySelector('.testimonial-prev');
+        const nextBtn = document.querySelector('.testimonial-next');
+        let currentSlide = 0;
+
+        const showSlide = (n) => {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+        };
+
+        const nextSlide = () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        };
+
+        const prevSlide = () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        };
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+        }
+
+        // Auto-play
+        if (slides.length > 1) {
+            setInterval(nextSlide, 7000); // Change slide every 7 seconds
+        }
+    }
+
+    // Lightbox for Gallery
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const allGalleryItems = document.querySelectorAll('.gallery-section .portfolio-item');
+        let visibleItems = [];
+        let currentIndex = 0;
+
+        const showImage = () => {
+            if (visibleItems.length > 0 && currentIndex >= 0 && currentIndex < visibleItems.length) {
+                const item = visibleItems[currentIndex];
+                const img = item.querySelector('img');
+                const info = item.querySelector('.portfolio-info');
+                
+                lightbox.style.display = 'block';
+                lightboxImg.src = img.src;
+                lightboxCaption.innerHTML = info ? info.innerHTML : '';
+            }
+        };
+
+        allGalleryItems.forEach(item => {
+            const imageContainer = item.querySelector('.portfolio-image');
+            if (imageContainer) {
+                imageContainer.addEventListener('click', () => {
+                    // Update visible items array on each click to respect filters
+                    visibleItems = Array.from(allGalleryItems).filter(i => i.style.display !== 'none');
+                    currentIndex = visibleItems.indexOf(item);
+                    showImage();
+                });
+            }
+        });
+
+        const closeLightbox = () => {
+            lightbox.style.display = 'none';
+        };
+
+        const nextImage = () => {
+            if (visibleItems.length > 0) {
+                currentIndex = (currentIndex + 1) % visibleItems.length;
+                showImage();
+            }
+        };
+
+        const prevImage = () => {
+            if (visibleItems.length > 0) {
+                currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+                showImage();
+            }
+        };
+
+        document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        document.querySelector('.lightbox-next').addEventListener('click', nextImage);
+        document.querySelector('.lightbox-prev').addEventListener('click', prevImage);
+
+        // Close on escape key or click outside image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.style.display === 'block') {
+                closeLightbox();
+            }
         });
     }
 });

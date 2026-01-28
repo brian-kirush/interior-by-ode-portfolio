@@ -539,7 +539,7 @@ body > section:first-of-type:not(.hero) {
 
 /* About Section */
 .about {
-    background-color: var(--light-gray);
+    background-color: var(--cream);
     padding: 80px 0;
 }
 
@@ -608,7 +608,7 @@ body > section:first-of-type:not(.hero) {
 
 /* Services Preview */
 .services-preview {
-    background-color: var(--light-gray);
+    background-color: var(--cream);
 }
 
 .services-grid {
@@ -650,7 +650,7 @@ body > section:first-of-type:not(.hero) {
 
 /* Portfolio Section */
 .portfolio-section {
-    background-color: var(--white);
+    background-color: var(--cream);
     padding: 80px 0;
 }
 
@@ -741,6 +741,10 @@ body > section:first-of-type:not(.hero) {
     height: 100%;
     object-fit: cover;
     transition: var(--transition);
+}
+
+.portfolio-image {
+    cursor: pointer;
 }
 
 .portfolio-item:hover .portfolio-image img {
@@ -864,6 +868,126 @@ body > section:first-of-type:not(.hero) {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Testimonials Section */
+.testimonials {
+    background-color: var(--cream);
+}
+
+.testimonial-slider {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px;
+    background: var(--white);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 50px;
+}
+
+.testimonial-slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.testimonial-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    display: none;
+}
+
+.testimonial-slide.active {
+    display: block;
+    animation: fadeIn 0.7s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.testimonial-text {
+    font-size: 1.2rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--charcoal);
+    margin-bottom: 30px;
+    position: relative;
+    padding: 0 20px;
+}
+
+.testimonial-text::before,
+.testimonial-text::after {
+    content: '"';
+    font-size: 3rem;
+    color: var(--sage-green);
+    position: absolute;
+    line-height: 1;
+}
+
+.testimonial-text::before {
+    top: -10px;
+    left: -10px;
+}
+
+.testimonial-text::after {
+    bottom: -30px;
+    right: -10px;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.testimonial-author img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--sage-green);
+}
+
+.testimonial-author h4 {
+    font-size: 1.1rem;
+    color: var(--deep-purple);
+    margin: 0;
+}
+
+.testimonial-author span {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.testimonial-nav {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+}
+
+.testimonial-nav button {
+    background: rgba(138, 154, 91, 0.5);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+}
+
+.testimonial-nav button:hover {
+    background: var(--sage-green);
 }
 
 /* Trust Section */
@@ -1225,6 +1349,94 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    transition: opacity 0.4s ease;
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    animation: zoom 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.lightbox-next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.lightbox-prev {
+    left: 0;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.lightbox-caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
 }
 
 /* Responsive Design */
