@@ -163,14 +163,29 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
 
-            // Basic validation
-            if (!data.name || !data.email || !data.tel || !data.service) {
-                alert('Please fill in all required fields.');
-                return;
-            }
+            // Construct WhatsApp message
+            const firstName = data.firstName || data.name || '';
+            const lastName = data.lastName || '';
+            const fullName = lastName ? `${firstName} ${lastName}` : firstName;
+            const email = data.email || '';
+            const phone = data.phone || data.tel || '';
+            const projectType = data.projectType || data.service || '';
+            const budget = data.budget || '';
+            const timeline = data.timeline || '';
+            const message = data.message || '';
 
-            // Show success message (in a real application, this would send to a server)
-            alert('Thank you for your interest! We will contact you within 24 hours to schedule your consultation.');
+            let whatsappMsg = `*New Consultation Request*\n\n`;
+            whatsappMsg += `*Name:* ${fullName}\n`;
+            whatsappMsg += `*Email:* ${email}\n`;
+            whatsappMsg += `*Phone:* ${phone}\n`;
+            whatsappMsg += `*Project Type:* ${projectType}\n`;
+            if (budget) whatsappMsg += `*Budget:* ${budget}\n`;
+            if (timeline) whatsappMsg += `*Timeline:* ${timeline}\n`;
+            whatsappMsg += `*Message:* ${message}`;
+
+            // Redirect to WhatsApp
+            const phoneNumber = "254714084308";
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
 
             // Reset form
             this.reset();
