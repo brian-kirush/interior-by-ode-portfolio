@@ -293,7 +293,7 @@ body > section:first-of-type:not(.hero) {
     left: 0;
     width: 0;
     height: 2px;
-    background-color: var(--sage-green);
+    background: linear-gradient(90deg, var(--deep-purple), var(--sage-green));
     transition: var(--transition);
 }
 
@@ -349,7 +349,6 @@ body > section:first-of-type:not(.hero) {
 }
 
 .navbar-menu a.active::after {
-    background: linear-gradient(90deg, var(--deep-purple), var(--sage-green));
     width: 100%;
 }
 
