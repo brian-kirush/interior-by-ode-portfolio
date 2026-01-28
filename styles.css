@@ -1340,7 +1340,7 @@ footer {
         top: 80px;
         left: 0;
         width: 100%;
-        background: linear-gradient(135deg, rgba(138, 154, 91, 0.95) 0%, rgba(250, 247, 240, 0.95) 70%, rgba(122, 138, 75, 0.9) 100%);
+        background: linear-gradient(135deg, rgba(138, 154, 91, 0.95) 0%, rgba(250, 247, 240, 0.95) 70%, rgba(74, 60, 90, 0.92) 100%);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         flex-direction: column;
