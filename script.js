@@ -12,22 +12,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
-    // Only show preloader on homepage
+    // Show preloader on all pages
     if (preloader) {
-        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
-            // Disable scroll while preloader is active
-            document.body.style.overflow = 'hidden';
-    
-            // Temporary: Hide preloader immediately for testing
-            setTimeout(() => {
-                preloader.classList.add('hide');
-                document.body.style.overflow = 'auto';
-            }, 500); // Reduced to 0.5 seconds
-        } else {
-            // Keep preloader hidden initially for navigation loading effects
-            preloader.style.display = 'none';
+        // Disable scroll while preloader is active
+        document.body.style.overflow = 'hidden';
+
+        setTimeout(() => {
             preloader.classList.add('hide');
-        }
+            document.body.style.overflow = 'auto';
+        }, 500);
     }
 
     // Mobile menu toggle
