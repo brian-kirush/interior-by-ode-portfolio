@@ -60,6 +60,11 @@ img {
     padding: 80px 0;
 }
 
+/* Offset for fixed navbar on subpages */
+body > section:first-of-type:not(.hero) {
+    padding-top: 120px;
+}
+
 .section-title {
     font-size: 2.5rem;
     margin-bottom: 2rem;
@@ -182,14 +187,14 @@ img {
     left: 0;
     width: 100%;
     padding: 8px 0;
-    background: linear-gradient(135deg, rgba(138, 154, 91, 0.8) 0%, rgba(250, 240, 230, 0.85) 30%, rgba(45, 27, 61, 0.4) 70%, rgba(74, 60, 90, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(138, 154, 91, 0.9) 0%, rgba(250, 247, 240, 0.85) 70%, rgba(122, 138, 75, 0.8) 100%);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 1000;
     transition: var(--transition);
-    box-shadow: 0 4px 25px rgba(45, 27, 61, 0.3);
-    border-bottom: 2px solid rgba(45, 27, 61, 0.5);
-    border-top: 3px solid var(--deep-purple);
+    box-shadow: 0 4px 25px rgba(122, 138, 75, 0.3);
+    border-bottom: 2px solid rgba(122, 138, 75, 0.5);
+    border-top: 3px solid var(--sage-green);
 }
 
 .navbar.hide {
@@ -324,12 +329,12 @@ img {
     transition: var(--transition);
     z-index: 1001;
     pointer-events: auto;
-    background-color: rgba(45, 27, 61, 0.3);
+    background-color: rgba(138, 154, 91, 0.3);
 }
 
 .mobile-toggle:hover {
-    background-color: rgba(74, 60, 90, 0.3);
-    color: var(--deep-purple);
+    background-color: rgba(122, 138, 75, 0.4);
+    color: var(--sage-dark);
 }
 
 /* WhatsApp Floating Button */
