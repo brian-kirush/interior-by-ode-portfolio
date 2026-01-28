@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             preloader.classList.add('hide');
             document.body.style.overflow = 'auto';
+            // Add class to trigger content fade-in animation
+            document.body.classList.add('content-loaded');
         }, 500);
     }
 
@@ -71,6 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const portfolioItems = document.querySelectorAll('.portfolio-item');
 
     if (filterButtons.length > 0 && portfolioItems.length > 0) {
+        portfolioItems.forEach(item => {
+            item.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+        });
+
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
                 // Remove active class from all buttons
@@ -81,17 +87,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 const filterValue = button.getAttribute('data-filter');
 
                 portfolioItems.forEach(item => {
-                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                    const shouldBeVisible = filterValue === 'all' || item.getAttribute('data-category') === filterValue;
+                    const isVisible = item.style.display !== 'none';
+
+                    if (shouldBeVisible && !isVisible) {
                         item.style.display = 'block';
                         // Add fade-in animation
                         item.style.opacity = '0';
-                        item.style.transform = 'translateY(20px)';
+                        item.style.transform = 'scale(0.8)';
                         setTimeout(() => {
                             item.style.opacity = '1';
-                            item.style.transform = 'translateY(0)';
-                        }, 100);
-                    } else {
-                        item.style.display = 'none';
+                            item.style.transform = 'scale(1)';
+                        }, 10);
+                    } else if (!shouldBeVisible && isVisible) {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 400);
                     }
                 });
             });
@@ -217,4 +230,22 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.remove('active');
         }
     });
+
+    // Back to top button
+    const backToTopButton = document.querySelector('.back-to-top');
+
+    if (backToTopButton) {
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 });
