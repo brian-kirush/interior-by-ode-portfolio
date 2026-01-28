@@ -1278,6 +1278,8 @@ footer {
     font-size: 1.1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     border: none;
+    position: relative;
+    z-index: 1;
 }
 
 .social-icons a:hover,
@@ -1338,7 +1340,7 @@ footer {
         top: 80px;
         left: 0;
         width: 100%;
-        background-color: rgba(255, 255, 255, 0.85);
+        background: linear-gradient(135deg, rgba(138, 154, 91, 0.95) 0%, rgba(250, 247, 240, 0.95) 70%, rgba(122, 138, 75, 0.9) 100%);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         flex-direction: column;
