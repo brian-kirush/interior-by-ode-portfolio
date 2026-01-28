@@ -395,4 +395,82 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Subtle scroll-triggered animations
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+    if (animatedElements.length > 0) {
+        const animationObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+
+        animatedElements.forEach(el => {
+            animationObserver.observe(el);
+        });
+    }
+
+    // Before & After Image Slider
+    function initBeforeAfterSlider(slider) {
+        const handle = slider.querySelector('.slider-handle');
+        const afterImage = slider.querySelector('.after-image');
+        let isDragging = false;
+
+        const moveSlider = (x) => {
+            const sliderRect = slider.getBoundingClientRect();
+            let newX = x - sliderRect.left;
+
+            // Constrain the handle within the slider
+            if (newX < 0) newX = 0;
+            if (newX > sliderRect.width) newX = sliderRect.width;
+
+            const percentage = (newX / sliderRect.width) * 100;
+            handle.style.left = `${percentage}%`;
+            afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+        };
+
+        // Mouse events
+        handle.addEventListener('mousedown', (e) => {
+            e.preventDefault(); // Prevent text selection
+            isDragging = true;
+        });
+
+        // We listen on the window to catch mouse movements outside the slider
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                moveSlider(e.clientX);
+            }
+        });
+
+        // Touch events
+        handle.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            isDragging = true;
+        });
+
+        window.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                if (e.touches && e.touches.length > 0) {
+                    moveSlider(e.touches[0].clientX);
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll('.before-after-slider').forEach(slider => {
+        if (slider) {
+            initBeforeAfterSlider(slider);
+        }
+    });
 });
