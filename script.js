@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add class to trigger content fade-in animation
             document.body.classList.add('content-loaded');
         }, 500);
+    } else {
+        // If there's no preloader, just show the content immediately
+        document.body.classList.add('content-loaded');
     }
 
     // Mobile menu toggle
