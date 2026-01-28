@@ -283,6 +283,8 @@ body > section:first-of-type:not(.hero) {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: inline-block;
+    z-index: 1;
 }
 
 .navbar-menu a::after {
@@ -305,6 +307,7 @@ body > section:first-of-type:not(.hero) {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(74, 60, 90, 0.15), rgba(138, 154, 91, 0.1), rgba(74, 60, 90, 0.15), transparent);
     transition: left 0.5s;
+    z-index: -1;
 }
 
 .navbar-menu a:hover::before {
@@ -1261,12 +1264,14 @@ footer {
     text-decoration: none;
     transition: all 0.3s ease;
     font-size: 1.2rem;
+    box-shadow: 0 5px 15px rgba(74, 60, 90, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .social-icons a:hover {
     background-color: var(--sage-green);
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(138, 154, 91, 0.3);
+    box-shadow: 0 8px 20px rgba(74, 60, 90, 0.7);
 }
 
 .copyright {
