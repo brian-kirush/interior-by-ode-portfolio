@@ -71,6 +71,39 @@ document.addEventListener('DOMContentLoaded', function() {
         navbar.classList.toggle('scrolled', scrollTop > 50);
     });
 
+    // Counter-up animation for stats
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) {
+        const counters = document.querySelectorAll('.stat-number');
+        
+        const animate = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const suffix = counter.innerText.replace(/[0-9]/g, ''); // Get suffix like '+' or '%'
+            counter.innerText = '0' + suffix; // Start from 0
+
+            const updateCount = () => {
+                const count = +counter.innerText.replace(suffix, '');
+                const increment = target / 100; // Animation speed
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment) + suffix;
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target + suffix;
+                }
+            };
+            updateCount();
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            if (entries[0].isIntersecting) {
+                counters.forEach(animate);
+                observer.disconnect(); // Animate only once
+            }
+        }, { threshold: 0.5 });
+        observer.observe(statsSection);
+    }
+
     // Portfolio filtering
     const filterButtons = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
@@ -186,41 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-    });
-
-    // Gallery slideshow functionality
-    const gallerySlideshows = document.querySelectorAll('.gallery-slideshow');
-
-    gallerySlideshows.forEach((slideshow, index) => {
-        const slides = slideshow.querySelectorAll('.gallery-slide');
-        const intervalTime = 3000 + (index * 500); // Stagger the timing: 3s, 3.5s, 4s, etc.
-        let currentSlide = 0;
-        let intervalId = null;
-
-        const nextSlide = () => {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        };
-
-        const startSlideshow = () => {
-            // Clear any existing interval before starting a new one to prevent duplicates
-            clearInterval(intervalId);
-            intervalId = setInterval(nextSlide, intervalTime);
-        };
-
-        // Pause on hover
-        slideshow.addEventListener('mouseenter', () => {
-            clearInterval(intervalId);
-        });
-
-        // Resume on mouse leave
-        slideshow.addEventListener('mouseleave', () => {
-            // Resume after a short delay for a smoother user experience
-            setTimeout(startSlideshow, 1000);
-        });
-
-        startSlideshow(); // Start the slideshow initially
     });
 
     // Add active class to current page in navbar
