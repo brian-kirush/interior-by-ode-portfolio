@@ -236,6 +236,37 @@ body > section:first-of-type:not(.hero) {
     transform: translateY(-100%);
 }
 
+.navbar.nav-theme-light {
+    background: linear-gradient(135deg, rgba(250, 247, 240, 0.9) 0%, rgba(255, 255, 255, 0.85) 100%);
+    border-top-color: var(--sage-green);
+    border-bottom-color: rgba(122, 138, 75, 0.3);
+}
+
+.navbar.nav-theme-light .navbar-logo span,
+.navbar.nav-theme-light .navbar-menu a {
+    color: var(--deep-purple);
+}
+
+.navbar.nav-theme-dark {
+    background: linear-gradient(135deg, rgba(45, 27, 61, 0.9) 0%, rgba(74, 60, 90, 0.85) 100%);
+    border-top-color: var(--sage-green);
+    border-bottom-color: rgba(250, 247, 240, 0.2);
+}
+
+.navbar.nav-theme-dark .navbar-logo span,
+.navbar.nav-theme-dark .navbar-menu a {
+    color: var(--white);
+}
+
+.navbar.nav-theme-dark .navbar-menu a::after {
+    background: linear-gradient(90deg, var(--white), var(--sage-green));
+}
+
+.navbar.nav-theme-dark .navbar-cta {
+    background-color: var(--white);
+    color: var(--deep-purple);
+}
+
 .navbar .container {
     display: flex;
     justify-content: space-between;
@@ -1349,6 +1380,49 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
+}
+
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: var(--sage-green);
+    color: var(--white);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 999;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top.visible i {
+    animation: float-up 3s ease-in-out infinite;
+}
+
+.back-to-top:hover {
+    background-color: var(--deep-purple);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(74, 60, 90, 0.4);
+}
+
+@keyframes float-up {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
 
 /* Lightbox Styles */

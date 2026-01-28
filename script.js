@@ -230,16 +230,51 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add active class to current page in navbar
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
+    // Active nav link highlighting and theme switching on scroll
+    const sectionsWithId = document.querySelectorAll('section[id]');
+
+    // This logic is for the single-page scroll effect on index.html
+    if (sectionsWithId.length > 0 && document.querySelector('.navbar-menu a[href^="#"]')) {
+        const observerOptions = {
+            rootMargin: '-80px 0px -40% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`.navbar-menu a[href="#${id}"]`);
+
+                    // Update active nav link
+                    document.querySelectorAll('.navbar-menu a').forEach(link => link.classList.remove('active'));
+                    if (navLink) {
+                        navLink.classList.add('active');
+                    }
+
+                    // Update navbar theme based on section's data-nav-theme attribute
+                    const navTheme = entry.target.getAttribute('data-nav-theme');
+                    navbar.classList.remove('nav-theme-light', 'nav-theme-dark'); // Reset themes
+                    if (navTheme && navTheme !== 'nav-theme-default') {
+                        navbar.classList.add(navTheme);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sectionsWithId.forEach(section => observer.observe(section));
+    } else {
+        // Fallback for other pages to set active link based on URL
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                // The active class is already set in the HTML, but this is a good fallback
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
 
     // Back to top button
     const backToTopButton = document.querySelector('.back-to-top');
