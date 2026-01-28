@@ -266,10 +266,11 @@ body > section:first-of-type:not(.hero) {
 .navbar-menu {
     display: flex;
     list-style: none;
+    gap: 30px; /* Use flexbox gap for consistent spacing */
 }
 
 .navbar-menu li {
-    margin-left: 40px;
+    margin: 0; /* Reset margin, spacing is now handled by parent gap */
 }
 
 .navbar-menu a {
@@ -278,12 +279,10 @@ body > section:first-of-type:not(.hero) {
     font-weight: 500;
     font-size: 1rem;
     letter-spacing: 0.5px;
-    padding: 10px 20px;
-    border-radius: 25px;
+    padding: 10px 5px; /* Adjust padding for vertical alignment and click area */
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(74, 60, 90, 0.1) 0%, rgba(138, 154, 91, 0.1) 100%);
 }
 
 .navbar-menu a::after {
@@ -318,8 +317,7 @@ body > section:first-of-type:not(.hero) {
 
 .navbar-menu a:hover {
     color: var(--deep-purple);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(74, 60, 90, 0.25);
+    transform: translateY(-2px); /* Keep the subtle lift on hover */
 }
 
 .navbar-menu a i {
