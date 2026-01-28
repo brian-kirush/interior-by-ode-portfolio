@@ -50,25 +50,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Sticky navbar with hide/show on scroll
+    // Optimized Scroll Handling (Navbar & Back to Top)
     let lastScrollTop = 0;
     const navbar = document.querySelector('.navbar');
+    const backToTopButton = document.querySelector('.back-to-top');
+    let ticking = false;
 
     window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down
-            navbar.classList.add('hide');
-        } else {
-            // Scrolling up
-            navbar.classList.remove('hide');
+                // Navbar Logic
+                if (navbar) {
+                    if (scrollTop > lastScrollTop && scrollTop > 100) {
+                        navbar.classList.add('hide');
+                    } else {
+                        navbar.classList.remove('hide');
+                    }
+                    navbar.classList.toggle('scrolled', scrollTop > 50);
+                }
+
+                // Back to Top Logic
+                if (backToTopButton) {
+                    if (scrollTop > 300) {
+                        backToTopButton.classList.add('visible');
+                    } else {
+                        backToTopButton.classList.remove('visible');
+                    }
+                }
+
+                lastScrollTop = scrollTop;
+                ticking = false;
+            });
+            ticking = true;
         }
-
-        lastScrollTop = scrollTop;
-
-        // Add shadow when scrolled
-        navbar.classList.toggle('scrolled', scrollTop > 50);
     });
 
     // Counter-up animation for stats
@@ -276,18 +292,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Back to top button
-    const backToTopButton = document.querySelector('.back-to-top');
-
+    // Back to top button click handler
     if (backToTopButton) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-
         backToTopButton.addEventListener('click', (e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -333,7 +339,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (lightbox) {
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxCaption = document.getElementById('lightbox-caption');
-        const allGalleryItems = document.querySelectorAll('.gallery-section .portfolio-item');
         let visibleItems = [];
         let currentIndex = 0;
 
@@ -349,17 +354,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        allGalleryItems.forEach(item => {
-            const imageContainer = item.querySelector('.portfolio-image');
-            if (imageContainer) {
-                imageContainer.addEventListener('click', () => {
-                    // Update visible items array on each click to respect filters
-                    visibleItems = Array.from(allGalleryItems).filter(i => i.style.display !== 'none');
-                    currentIndex = visibleItems.indexOf(item);
-                    showImage();
-                });
-            }
-        });
+        // Event Delegation for Gallery Items
+        const portfolioGrid = document.querySelector('.portfolio-grid');
+        if (portfolioGrid) {
+            portfolioGrid.addEventListener('click', (e) => {
+                const imageContainer = e.target.closest('.portfolio-image');
+                if (imageContainer) {
+                    const item = imageContainer.closest('.portfolio-item');
+                    if (item) {
+                        const allGalleryItems = document.querySelectorAll('.portfolio-item');
+                        visibleItems = Array.from(allGalleryItems).filter(i => i.style.display !== 'none');
+                        currentIndex = visibleItems.indexOf(item);
+                        if (currentIndex !== -1) showImage();
+                    }
+                }
+            });
+        }
 
         const closeLightbox = () => {
             lightbox.style.display = 'none';
@@ -417,7 +427,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function initBeforeAfterSlider(slider) {
         const handle = slider.querySelector('.slider-handle');
         const afterImage = slider.querySelector('.after-image');
-        let isDragging = false;
 
         const moveSlider = (x) => {
             const sliderRect = slider.getBoundingClientRect();
@@ -432,39 +441,33 @@ document.addEventListener('DOMContentLoaded', function() {
             afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
         };
 
+        // Optimized event handling: attach window listeners only during drag
+        const onMouseMove = (e) => moveSlider(e.clientX);
+        const onMouseUp = () => {
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+        };
+
+        const onTouchMove = (e) => {
+            if (e.touches.length > 0) moveSlider(e.touches[0].clientX);
+        };
+        const onTouchEnd = () => {
+            window.removeEventListener('touchmove', onTouchMove);
+            window.removeEventListener('touchend', onTouchEnd);
+        };
+
         // Mouse events
         handle.addEventListener('mousedown', (e) => {
             e.preventDefault(); // Prevent text selection
-            isDragging = true;
-        });
-
-        // We listen on the window to catch mouse movements outside the slider
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                moveSlider(e.clientX);
-            }
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
         });
 
         // Touch events
         handle.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            isDragging = true;
-        });
-
-        window.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-
-        window.addEventListener('touchmove', (e) => {
-            if (isDragging) {
-                if (e.touches && e.touches.length > 0) {
-                    moveSlider(e.touches[0].clientX);
-                }
-            }
+            e.preventDefault(); // Prevent scrolling
+            window.addEventListener('touchmove', onTouchMove);
+            window.addEventListener('touchend', onTouchEnd);
         });
     }
 
