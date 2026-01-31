@@ -1540,7 +1540,6 @@ footer {
     display: none;
     position: fixed;
     z-index: 9999;
-    padding-top: 60px;
     left: 0;
     top: 0;
     width: 100%;
@@ -1548,14 +1547,19 @@ footer {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.9);
     transition: opacity 0.4s ease;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .lightbox-content {
     margin: auto;
     display: block;
-    width: 80%;
-    max-width: 800px;
-    max-height: 80vh;
+    width: auto;
+    height: auto;
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
     animation: zoom 0.6s;
 }
 

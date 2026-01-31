@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const video = item.querySelector('video');
                 const info = item.querySelector('.portfolio-info');
                 
-                lightbox.style.display = 'block';
+                lightbox.style.display = 'flex';
                 
                 if (video && lightboxVideo) {
                     if (lightboxImg) lightboxImg.style.display = 'none';
@@ -496,4 +496,25 @@ document.addEventListener('DOMContentLoaded', function() {
             initBeforeAfterSlider(slider);
         }
     });
+
+    // Optimize Video Autoplay for Mobile (Play only when in viewport)
+    const portfolioVideos = document.querySelectorAll('.portfolio-grid video');
+    if (portfolioVideos.length > 0) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Play video when visible
+                    const playPromise = entry.target.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {}); // Handle autoplay restrictions
+                    }
+                } else {
+                    // Pause video when not visible
+                    entry.target.pause();
+                }
+            });
+        }, { threshold: 0.25 });
+
+        portfolioVideos.forEach(video => videoObserver.observe(video));
+    }
 });
