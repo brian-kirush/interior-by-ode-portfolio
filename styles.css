@@ -875,7 +875,8 @@ body > section:first-of-type:not(.hero) {
     position: relative;
 }
 
-.portfolio-image img {
+.portfolio-image img,
+.portfolio-image video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -886,7 +887,8 @@ body > section:first-of-type:not(.hero) {
     cursor: pointer;
 }
 
-.portfolio-item:hover .portfolio-image img {
+.portfolio-item:hover .portfolio-image img,
+.portfolio-item:hover .portfolio-image video {
     transform: scale(1.1);
 }
 
