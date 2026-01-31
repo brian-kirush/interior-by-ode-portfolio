@@ -77,22 +77,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item portfolio-item-slider animate-on-scroll" data-animation="fade-up" style="transition-delay: 0.2s;" data-category="renovation">
-                    <div class="before-after-slider">
-                        <div class="before-image">
-                            <img src="images/interiors_by_ode_logo-removebg-preview.png" style="filter: grayscale(100%) brightness(80%);" alt="Kitchen Before" loading="lazy" decoding="async">
-                        </div>
-                        <div class="after-image">
-                            <img src="images/interiors_by_ode_logo-removebg-preview.png" alt="Kitchen Renovation" loading="lazy" decoding="async">
-                        </div>
-                        <div class="slider-handle"><div class="handle-arrow"></div></div>
-                    </div>
-                    <div class="portfolio-content">
-                        <span class="portfolio-category">Renovation</span>
-                        <h3>Modern Kitchen</h3>
-                        <p>Complete kitchen renovation with modern appliances and custom cabinetry.</p>
-                    </div>
-                </div>
                 <div class="portfolio-item animate-on-scroll" data-animation="fade-up" style="transition-delay: 0.3s;" data-category="residential">
                     <div class="portfolio-image">
                         <video src="images/videos/VID-20260131-WA0026.mp4" poster="images/interiors_by_ode_logo-removebg-preview.png" autoplay muted loop playsinline></video>
@@ -115,22 +99,6 @@
                                 <span class="category">Commercial</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="portfolio-item portfolio-item-slider animate-on-scroll" data-animation="fade-up" style="transition-delay: 0.5s;" data-category="renovation">
-                    <div class="before-after-slider">
-                        <div class="before-image">
-                            <img src="images/interiors_by_ode_logo-removebg-preview.png" style="filter: grayscale(100%) brightness(80%);" alt="Bathroom Before" loading="lazy" decoding="async">
-                        </div>
-                        <div class="after-image">
-                            <img src="images/interiors_by_ode_logo-removebg-preview.png" alt="Bathroom Renovation" loading="lazy" decoding="async">
-                        </div>
-                        <div class="slider-handle"><div class="handle-arrow"></div></div>
-                    </div>
-                    <div class="portfolio-content">
-                        <span class="portfolio-category">Renovation</span>
-                        <h3>Spa Bathroom</h3>
-                        <p>Luxurious bathroom renovation with spa-like features and premium materials.</p>
                     </div>
                 </div>
             </div>
@@ -173,6 +141,16 @@
             </div>
         </div>
     </footer>
+
+    <!-- Lightbox HTML -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" style="display: none;">
+        <video class="lightbox-content" id="lightboxVideo" controls style="display: none;"></video>
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+        <a class="lightbox-prev">&#10094;</a>
+        <a class="lightbox-next">&#10095;</a>
+    </div>
 
     <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
     <script src="script.js"></script>

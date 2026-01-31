@@ -338,6 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightbox = document.getElementById('lightbox');
     if (lightbox) {
         const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxVideo = document.getElementById('lightboxVideo');
         const lightboxCaption = document.getElementById('lightbox-caption');
         let visibleItems = [];
         let currentIndex = 0;
@@ -346,10 +347,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (visibleItems.length > 0 && currentIndex >= 0 && currentIndex < visibleItems.length) {
                 const item = visibleItems[currentIndex];
                 const img = item.querySelector('img');
+                const video = item.querySelector('video');
                 const info = item.querySelector('.portfolio-info');
                 
                 lightbox.style.display = 'block';
-                lightboxImg.src = img.src;
+                
+                if (video && lightboxVideo) {
+                    if (lightboxImg) lightboxImg.style.display = 'none';
+                    lightboxVideo.style.display = 'block';
+                    lightboxVideo.src = video.src;
+                    lightboxVideo.play();
+                } else if (img && lightboxImg) {
+                    if (lightboxVideo) {
+                        lightboxVideo.style.display = 'none';
+                        lightboxVideo.pause();
+                    }
+                    lightboxImg.style.display = 'block';
+                    lightboxImg.src = img.src;
+                }
+                
                 lightboxCaption.innerHTML = info ? info.innerHTML : '';
             }
         };
@@ -373,6 +389,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const closeLightbox = () => {
             lightbox.style.display = 'none';
+            if (lightboxVideo) {
+                lightboxVideo.pause();
+                lightboxVideo.src = "";
+            }
         };
 
         const nextImage = () => {
